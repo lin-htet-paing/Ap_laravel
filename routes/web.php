@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::resource('posts', HomeController::class);
