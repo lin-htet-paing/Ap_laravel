@@ -26,6 +26,17 @@
                     <label for="description">Description</label>
                     <textarea class="form-control" id="description" name="description" placeholder="Enter Description">{{old('description', $post->description)}}</textarea>
                 </div>
+                <div>
+									<select name="category_id" id="category-id" class="form-control">
+										@foreach($category_data as $cat)
+										@if($post->category->id == $cat->id)
+											<option value="{{$cat->id}}" selected>{{$cat->name}}</option>
+										@else
+											<option value="{{$cat->id}}">{{$cat->name}}</option>
+										@endif
+										@endforeach
+									</select>
+								</div>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <a href="/posts" class="btn btn-primary">Back</a>

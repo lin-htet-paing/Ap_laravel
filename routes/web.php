@@ -15,4 +15,6 @@ use App\Http\Controllers;
 |
 */
 
-Route::resource('posts', HomeController::class);
+Route::middleware(['auth:sanctum', 'verified'])->resource('posts', HomeController::class);
+Route::get('logout', [AuthController::class, 'logout'] );
+Route::get('/posts', [HomeController::class, 'index']);

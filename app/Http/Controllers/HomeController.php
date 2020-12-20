@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Category;
 use App\Http\Requests\storePostRequest;
 
 class HomeController extends Controller
@@ -15,7 +16,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $post = Post::orderBy('id', 'desc')->get();
+        $post = Post::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
         return view('home', compact('post'));
     }
 
@@ -26,7 +27,8 @@ class HomeController extends Controller
      */
     public function create()
     {
-        return view('create');
+        $category = Category::all();
+        return view('create', compact('category'));
     }
 
     /**
@@ -41,10 +43,13 @@ class HomeController extends Controller
         // $post->name = $request->name;
         // $post->description = $request->description;
 				// $post->save();
-				Post::create([
-					'name' => $request->name,
-					'description' => $request->description
-				]);
+				// Post::create([
+				// 	'name' => $request->name,
+                //     'description' => $request->description,
+                //     'category_id' => $request->category
+                // ]);
+				$validated = $request->validated();
+				Post::create($validated);
         return redirect('/posts');
     }
 
@@ -57,6 +62,12 @@ class HomeController extends Controller
      */
     public function show(Post $post)
     {
+        //creating filter manually
+        // if($post->user_id != auth()->user()->id)
+        // {
+        //     abort(403);
+        // }
+        $this->authorize('view', $post);
         return view('showDetail', compact('post'));
     }
 
@@ -69,7 +80,14 @@ class HomeController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('edit', compact('post'));
+        //creating filter manually
+        // if($post->user_id    != auth()->user()->id)
+        // {
+        //     abort(403);
+        // }
+        $this->authorize('view', $post);
+        $category_data = Category::all();
+        return view('edit', compact('post', 'category_data'));
     }
 
     /**
@@ -86,11 +104,13 @@ class HomeController extends Controller
         // $post->description = $request->description;
 				// $post->save();
 				
-				$post->update([
-					'name' => $request->name,
-					'description' => $request->description
-				]);
-
+				// $post->update([
+				// 	'name' => $request->name,
+        //             'description' => $request->description,
+        //             'category_id' => $request->category
+				// ]);
+				$validated = $request->validated();
+				$post->update($validated);
         return redirect('/posts');
     }
 

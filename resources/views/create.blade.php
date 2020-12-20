@@ -25,6 +25,14 @@
                     <label for="description">Description</label>
                     <textarea class="form-control" id="description" name="description" placeholder="Enter Description">{{ old('description') }}</textarea>
                 </div>
+								<div>
+									<select name="category_id" id="category-id" class="form-control">
+										<option value="">Select Category</option>
+										@foreach($category as $cat)
+											<option value="{{$cat->id}}">{{$cat->name}}</option>
+										@endforeach
+									</select>
+								</div>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <a href="/posts" class="btn btn-primary">Back</a>
