@@ -93,6 +93,8 @@ class HomeController extends Controller
 
         return redirect('/posts');
     }
+	public function aa() {
+	}
 
     /**
      * Remove the specified resource from storage.
